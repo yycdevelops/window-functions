@@ -11,6 +11,7 @@ pub const PI: f32 = 3.14159265358979323846264338327950288_f32;
 
 struct Hanning {}
 struct Hamming {}
+struct Bartlett {}
 
 impl CosineWindow<f32> for Hanning {
     fn cosine_window(window: &mut Vec<f32>) {
@@ -48,6 +49,16 @@ impl Window<Vec<f32>> for Hamming {
     }
 }
 
+impl Window<Vec<f32>> for Bartlett {
+    fn window(num: usize) -> Vec<f32> {
+        let y: Vec<_> = (0..num).map(|x| {
+            let multi = 2_f32 * (x as f32 - 0.5 * (num as f32- 1_f32)) / (num as f32 - 1_f32);
+            1_f32- multi.abs()
+        }).collect();
+        y
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -62,5 +73,12 @@ mod tests {
     fn test_hamming_window() {
         let window = Hamming::window(51);
         println!("{:?}", window);
+    }
+
+    #[test]
+    fn test_barlet() {
+        let window = Bartlett::window(51);
+        println!("{:?}", window);
+
     }
 }
