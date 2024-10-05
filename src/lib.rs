@@ -1,3 +1,4 @@
+use core::f32;
 
 pub trait Window<T> {
     fn window(num: usize) -> T;
@@ -7,8 +8,6 @@ trait CosineWindow<T> {
     fn cosine_window(window: &mut Vec<T>);
 }
 
-pub const PI: f32 = 3.14159265358979323846264338327950288_f32;
-
 pub struct Hanning {}
 pub struct Hamming {}
 pub struct Bartlett {}
@@ -17,7 +16,7 @@ impl CosineWindow<f32> for Hanning {
     fn cosine_window(window: &mut Vec<f32>) {
         let size: usize = window.len();
         window.iter_mut().for_each(|x| {
-            let multiplier = PI * 2_f32 * *x / (size as f32 - 1_f32);
+            let multiplier = f32::consts::PI * 2_f32 * *x / (size as f32 - 1_f32);
             *x = 0.5 - 0.5 * multiplier.cos();
         });
     }
@@ -27,7 +26,7 @@ impl CosineWindow<f32> for Hamming {
     fn cosine_window(window: &mut Vec<f32>) {
         let size: usize = window.len();
         window.iter_mut().for_each(|x| {
-            let multipler = PI * 2_f32 * *x / (size as f32 - 1_f32);
+            let multipler = f32::consts::PI * 2_f32 * *x / (size as f32 - 1_f32);
             *x = 0.54 - 0.46 * multipler.cos();
         });
     }
