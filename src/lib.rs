@@ -51,11 +51,11 @@ impl Window<Vec<f32>> for Hamming {
 
 impl Window<Vec<f32>> for Bartlett {
     fn window(num: usize) -> Vec<f32> {
-        let y: Vec<_> = (0..num).map(|x| {
+        let window_bartlett: Vec<_> = (0..num).map(|x| {
             let multi = 2_f32 * (x as f32 - 0.5 * (num as f32- 1_f32)) / (num as f32 - 1_f32);
             1_f32- multi.abs()
         }).collect();
-        y
+        window_bartlett
     }
 }
 
