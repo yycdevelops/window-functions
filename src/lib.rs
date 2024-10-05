@@ -1,5 +1,5 @@
 
-trait Window<T> {
+pub trait Window<T> {
     fn window(num: usize) -> T;
 }
 
@@ -9,9 +9,9 @@ trait CosineWindow<T> {
 
 pub const PI: f32 = 3.14159265358979323846264338327950288_f32;
 
-struct Hanning {}
-struct Hamming {}
-struct Bartlett {}
+pub struct Hanning {}
+pub struct Hamming {}
+pub struct Bartlett {}
 
 impl CosineWindow<f32> for Hanning {
     fn cosine_window(window: &mut Vec<f32>) {
