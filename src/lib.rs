@@ -86,11 +86,54 @@ impl Window<Vec<f32>> for Blackman {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use Helpers::assert_with_decimal_places;
+    use TestSetup::*;
+    use crate::tests::TestSetup::SampleData;
+    /*
+        Given the Widow function implementation is a direct match to what numpy provides, the tests 
+        consist of comparing data returned in numpy (Python) to the values produced. 
+
+    */  
+
+    mod TestSetup {
+        use super::Hamming;
+        use super::Hanning;
+
+        pub trait SampleData {
+            fn sample_data() -> Vec<f32>;
+        }
+
+        impl SampleData for Hanning {
+            fn sample_data() -> Vec<f32> {
+                vec![0.0, 0.11697778, 0.41317591, 0.75, 0.96984631, 0.96984631, 0.75, 0.41317591, 0.11697778, 0.0]
+            }
+        }
+
+    }
+    
+    mod Helpers {
+        pub fn assert_with_decimal_places(actual: Vec<f32>, sample: Vec<f32>, places: Option<i32>) {
+            // let percision = match places {
+            //     None => 05, 
+            //     Some(x) => x as i32,
+            // };
+
+            actual.iter().zip(sample).for_each(|(a, b)| {
+                //assert_eq!(format!{"{:..percision", a})
+                let y = format!("{:.05}", *a);
+                let z = format!("{:.05}", b);
+                assert_eq!(y,z);
+            });
+
+        }
+    }
+
 
     #[test]
     fn test_hanning_window() {
-        let window = Hanning::window(51);
-        println!("{:?}", window);
+        let window = Hanning::window(10);
+        let test_data = Hanning::sample_data();
+        assert_with_decimal_places(window, test_data, Some(05));
     }
 
     #[test]
