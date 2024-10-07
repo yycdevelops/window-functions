@@ -44,7 +44,7 @@ impl CosineWindow<f32> for Blackman {
         window.iter_mut().for_each(|x| {
             let multiplier_left = f32::consts::PI * 2_f32 * *x / size as f32;
             let multiplier_right = f32::consts::PI * 4_f32 * *x / size as f32;
-            *x = co1 - co2 * multiplier_left.cos() + co3 * multiplier_right.cos();
+            *x = co1 - co2 * (multiplier_left.cos() + co3 * multiplier_right.cos());
         });
     }
 }
@@ -96,6 +96,8 @@ mod tests {
     */  
 
     mod TestSetup {
+        use super::Bartlett;
+        use super::Blackman;
         use super::Hamming;
         use super::Hanning;
 
@@ -109,6 +111,24 @@ mod tests {
             }
         }
 
+        impl SampleData for Hamming {
+            fn sample_data() -> Vec<f32> {
+                vec![0.08, 0.18761956, 0.46012184, 0.77, 0.97225861, 0.97225861, 0.77, 0.46012184, 0.18761956, 0.08]
+            }
+        }
+
+        impl SampleData for Bartlett {
+            fn sample_data() -> Vec<f32> {
+                vec![0.0, 0.22222222, 0.44444444, 0.66666667, 0.88888889, 0.88888889, 0.66666667, 0.44444444, 0.22222222, 0.0]
+            }
+            
+        }
+
+        impl SampleData for Blackman {
+            fn sample_data() -> Vec<f32> {
+                vec![-1.38777878e-17, 5.08696327e-02, 2.58000502e-01, 6.30000000e-01, 9.51129866e-01, 9.51129866e-01, 6.30000000e-01, 2.58000502e-01, 5.08696327e-02, -1.38777878e-17]
+            }
+        }
     }
     
     mod Helpers {
@@ -134,19 +154,27 @@ mod tests {
 
     #[test]
     fn test_hamming_window() {
-        let window = Hamming::window(51);
-        println!("{:?}", window);
+        let window = Hamming::window(10);
+        let test_data = Hamming::sample_data();
+        assert_with_decimal_places(window, test_data);
     }
 
     #[test]
     fn test_barlet() {
-        let window = Bartlett::window(51);
-        println!("{:?}", window);
+        let window = Bartlett::window(10);
+        let test_data = Bartlett::sample_data();
+        assert_with_decimal_places(window, test_data);
     }
 
     #[test]
     fn test_blackman() {
-        let window = Blackman::window(51);
+        let window = Blackman::window(10);
+
         println!("{:?}", window);
+    
+        let test_data = Blackman::sample_data();
+    
+        println!("{:?}", test_data);
+        assert_with_decimal_places(window, test_data);   
     }
 }
