@@ -112,12 +112,8 @@ mod tests {
     }
     
     mod Helpers {
-        pub fn assert_with_decimal_places(actual: Vec<f32>, sample: Vec<f32>, places: Option<i32>) {
-            // let percision = match places {
-            //     None => 05, 
-            //     Some(x) => x as i32,
-            // };
-
+        pub fn assert_with_decimal_places(actual: Vec<f32>, sample: Vec<f32>) {
+        
             actual.iter().zip(sample).for_each(|(a, b)| {
                 //assert_eq!(format!{"{:..percision", a})
                 let y = format!("{:.05}", *a);
@@ -133,7 +129,7 @@ mod tests {
     fn test_hanning_window() {
         let window = Hanning::window(10);
         let test_data = Hanning::sample_data();
-        assert_with_decimal_places(window, test_data, Some(05));
+        assert_with_decimal_places(window, test_data);
     }
 
     #[test]
