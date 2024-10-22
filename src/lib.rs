@@ -87,7 +87,7 @@ impl Window<Vec<f32>> for Blackman {
 mod tests {
     use super::*;
     use helpers::assert_with_decimal_places;
-    use test_setup::*;
+    use test_setup::*;  
     /*
         Given the Widow function implementation is a direct match to what numpy provides, the tests 
         consist of comparing data returned in numpy (Python) to the values produced. 
@@ -134,7 +134,6 @@ mod tests {
         pub fn assert_with_decimal_places(actual: Vec<f32>, sample: Vec<f32>) {
         
             actual.iter().zip(sample).for_each(|(a, b)| {
-                //assert_eq!(format!{"{:..percision", a})
                 let y = format!("{:.05}", *a);
                 let z = format!("{:.05}", b);
                 assert_eq!(y,z);
@@ -142,8 +141,7 @@ mod tests {
 
         }
     }
-
-
+    
     #[test]
     fn test_hanning_window() {
         let window = Hanning::window(10);
