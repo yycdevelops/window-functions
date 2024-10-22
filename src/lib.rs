@@ -86,16 +86,15 @@ impl Window<Vec<f32>> for Blackman {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use Helpers::assert_with_decimal_places;
-    use TestSetup::*;
-    use crate::tests::TestSetup::SampleData;
+    use helpers::assert_with_decimal_places;
+    use test_setup::*;
     /*
         Given the Widow function implementation is a direct match to what numpy provides, the tests 
         consist of comparing data returned in numpy (Python) to the values produced. 
 
     */  
 
-    mod TestSetup {
+    mod test_setup {
         use super::Bartlett;
         use super::Blackman;
         use super::Hamming;
@@ -131,7 +130,7 @@ mod tests {
         }
     }
     
-    mod Helpers {
+    mod helpers {
         pub fn assert_with_decimal_places(actual: Vec<f32>, sample: Vec<f32>) {
         
             actual.iter().zip(sample).for_each(|(a, b)| {
@@ -169,12 +168,7 @@ mod tests {
     #[test]
     fn test_blackman() {
         let window = Blackman::window(10);
-
-        println!("{:?}", window);
-    
         let test_data = Blackman::sample_data();
-    
-        println!("{:?}", test_data);
         assert_with_decimal_places(window, test_data);   
     }
 }
