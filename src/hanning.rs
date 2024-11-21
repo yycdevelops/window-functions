@@ -17,7 +17,6 @@ impl CosineWindow<f32> for Hanning {
 
 impl Window<Vec<f32>> for Hanning {
     fn window(num: usize) -> Vec<f32> {
-        //let mut window: Vec<_> = (0u8 .. num as u8).map(f32::from).collect();
         let mut window: Vec<_> = fill_vec!(num);
         Self::cosine_window(&mut window);
         window  
